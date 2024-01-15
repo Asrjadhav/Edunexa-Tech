@@ -1,0 +1,99 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class SimpleInventorySystem {
+
+    private static Map<String, Item> inventory = new HashMap<>();
+    private static int nextItemId = 1;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1. Add Item to Inventory");
+            System.out.println("2. Display Inventory");
+            System.out.println("3. Search for Item");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    addItemToInventory(scanner);
+                    break;
+                case 2:
+                    displayInventory();
+                    break;
+                case 3:
+                    searchForItem(scanner);
+                    break;
+                case 4:
+                    System.out.println("Exiting the inventory system. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void addItemToInventory(Scanner scanner) {
+        System.out.print("Enter item name: ");
+        String itemName = scanner.nextLine();
+
+        System.out.print("Enter item quantity: ");
+        int quantity = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        Item newItem = new Item(nextItemId, itemName, quantity);
+        inventory.put(String.valueOf(nextItemId), newItem);
+
+        System.out.println("Item added to inventory with ID: " + nextItemId);
+        nextItemId++;
+    }
+
+    private static void displayInventory() {
+        if (inventory.isEmpty()) {
+            System.out.println("Inventory is empty.");
+        } else {
+            System.out.println("Current Inventory:");
+            for (Item item : inventory.values()) {
+                System.out.println(item);
+            }
+        }
+    }
+
+    private static void searchForItem(Scanner scanner) {
+        System.out.print("Enter item ID to search: ");
+        String itemId = scanner.nextLine();
+
+        Item item = inventory.get(itemId);
+
+        if (item != null) {
+            System.out.println("Item found:");
+            System.out.println(item);
+        } else {
+            System.out.println("Item not found in inventory.");
+        }
+    }
+
+    static class Item {
+        private int id;
+        private String name;
+        private int quantity;
+
+        public Item(int id, String name, int quantity) {
+            this.id = id;
+            this.name = name;
+            this.quantity = quantity;
+        }
+
+        @Override
+        public String toString() {
+            return "Item ID: " + id + ", Name: " + name + ", Quantity: " + quantity;
+        }
+    }
+}
