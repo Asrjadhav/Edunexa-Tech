@@ -1,0 +1,48 @@
+import java.io.*;
+
+public class FileHandlingExample {
+
+    public static void main(String[] args) {
+        // Read from a file
+        readFromFile("example.txt");
+
+        // Write to a new file
+        writeToFile("output.txt", "Hello, this is a line in the file.\nAnother line.");
+
+        // Append to the same file
+        appendToFile("output.txt", "\nThis line is appended to the file.");
+    }
+
+    private static void readFromFile(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            System.out.println("Reading from " + fileName + ":");
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            System.out.println();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void writeToFile(String fileName, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            System.out.println("Writing to " + fileName + ":");
+            writer.write(content);
+            System.out.println("File writing is complete.\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void appendToFile(String fileName, String content) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            System.out.println("Appending to " + fileName + ":");
+            writer.write(content);
+            System.out.println("File appending is complete.\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
